@@ -15,10 +15,10 @@ jobs:
       - uses: actions/setup-go@v3
 
       - name: Install dependencies
-        runs: go mod download
+        run: go mod download
 
       - name: Build it
-        runs: go build
+        run: go build
         env:
           GOOS: linux
           GOARCH: arm64
