@@ -44,7 +44,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Test SSH connectivity
-        run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPOLY_INSTANCE }} 'echo Success'
+        run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'echo Success'
 
       - name: List artifacts
         run: ls
