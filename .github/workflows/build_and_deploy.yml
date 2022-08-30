@@ -56,7 +56,7 @@ jobs:
         run: scp -o StrictHostKeyChecking=no artifact/ToBeReviewedBot ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }}:~/tbrbot
 
       - name: Stop service
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudy systemctl stop tbrbot'
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo systemctl stop tbrbot'
 
       - name: Move binary to service folder
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo cp ~/tbrbot /usr/local/lib/tbrbot/tbrbot'
