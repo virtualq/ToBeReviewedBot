@@ -30,4 +30,22 @@ jobs:
         with:
           path: ./ToBeReviewedBot
   
-        
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [build]
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Import SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Test SSH connectivity
+        run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPOLY_INSTANCE }} 'echo Success'
+
+      - name: List artifacts
+        run: ls
+
