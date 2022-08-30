@@ -55,6 +55,9 @@ jobs:
       - name: Upload binary to server
         run: scp -o StrictHostKeyChecking=no artifact/ToBeReviewedBot ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }}:~/tbrbot
 
+      - name: Stop service
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudy systemctl stop tbrbot'
+
       - name: Move binary to service folder
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo cp ~/tbrbot /usr/local/lib/tbrbot/tbrbot'
 
@@ -62,4 +65,4 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo chown app:app /usr/local/lib/tbrbot/tbrbot'
 
       - name: Restart systemd unit
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo systemctl restart tbrbot'
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo systemctl start tbrbot'
