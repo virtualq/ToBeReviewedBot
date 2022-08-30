@@ -29,7 +29,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: ./ToBeReviewedBot
-          name: tbrbot
   
   deploy:
     runs-on: ubuntu-latest
@@ -44,11 +43,17 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: List directory
+        run: ls -las
+
+      - name: List artifact directory
+        run: ls -las artifact/
+
       - name: Test SSH connectivity
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'echo Success'
 
       - name: Upload binary to server
-        run: scp -o StrictHostKeyChecking=no tbrbot ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }}:~
+        run: scp -o StrictHostKeyChecking=no artifact/ToBeReviewedBot ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }}:~/tbrbot
 
       - name: Move binary to service folder
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo cp ~/tbrbot /usr/local/lib/tbrbot/tbrbot'
