@@ -43,9 +43,20 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Test SSH connectivity
-        run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'echo Success'
-
       - name: List artifacts
         run: ls
 
+      - name: Test SSH connectivity
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'echo Success'
+
+      - name: Upload binary to server
+        run: scp -o StrictHostKeyChecking=no ToBeReviewedBot ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }}:~
+
+      - name: Move binary to service folder
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo cp ~/ToBeReviewedBot /usr/local/lib/tbrbot/tbrbot'
+
+      - name: Chown binary
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo chown app:app /usr/local/lib/tbrbot/tbrbot'
+
+      - name: Restart systemd unit
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_INSTANCE }} 'sudo systemctl restart tbrbot'
