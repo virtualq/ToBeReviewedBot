@@ -38,7 +38,7 @@ be handled by secrets management infrastructure in cloud providers:
 Normally the bot wakes up every hour to check for recently submitted PRs needing
 followup. Its reaction to a submitted PR can be hastened by setting up a 
 [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks)
-for "Pull request reviews" events.
+for "Pull requests" events (which send on a merged PR).
 
 GitHub should be configured to deliver webhook events to `https://Public-DNS-name/webhook`
 
@@ -91,3 +91,11 @@ $ flyctl ips allocate-v4
 We recommend using a [one-time authkey with Tags set](https://tailscale.com/blog/acl-tags-ga/) to
 authorize the bot to join the tailnet. Once the bot has run once and written its state
 to persistent storage, the `TS_AUTHKEY` secret should be removed.
+
+### Contributing
+
+PRs welcome! But please [file bugs](https://github.com/tailscale/ToBeReviewedBot/issues).
+Commit messages should [reference bugs](https://docs.github.com/en/github/writing-on-github/autolinked-references-and-urls).
+
+We require [Developer Certificate of Origin](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin)
+`Signed-off-by` lines in commits.

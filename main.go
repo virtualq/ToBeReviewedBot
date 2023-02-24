@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// tbr-audit is a Github app which will walk through recently merged
+// tbr-audit is a GitHub app which will walk through recently merged
 // pull requests from a GitHub repository and validate that at least one
 // reviewer approved them. If a Pull Request was merged without a reviewer,
 // a GitHub issue will be filed requesting a followup review.
@@ -56,7 +56,7 @@ type githubInfo struct {
 // https://github.com/organizations/<name>/settings/installations
 // This gives it permission to access private repos without using an individual's
 // Personal Access Token.
-func getGithubApiClient(args githubInfo) *github.Client {
+func getGitHubApiClient(args githubInfo) *github.Client {
 	itr, err := ghinstallation.New(http.DefaultTransport, args.appId,
 		args.appInstall, args.appPrivateKey)
 	if err != nil {
@@ -116,6 +116,11 @@ func wasPrEverApproved(client *github.Client, repo string, args githubInfo, prNu
 				if mem.ContainsFold(mem.S(*review.Body), mem.S("LGTM")) {
 					return true
 				}
+
+                                // https://twitter.com/naomi_lgbt/status/1573462393103192064
+				if mem.ContainsFold(mem.S(*review.Body), mem.S("banger pr")) {
+					return true
+				}
 			}
 		}
 
@@ -141,7 +146,7 @@ func checkForToBeReviewed(client *github.Client, repo string, args githubInfo) {
 	ctx := context.Background()
 	for {
 		// ListRepositoryEvents returns the most recent 300 events, but only
-		// those occuring in the last 90 days. It is recommended this bot be
+		// those occurring in the last 90 days. It is recommended this bot be
 		// run at least once per day and at most every 15 minutes, depending
 		// on how much activity there is, in order to not miss events.
 		events, resp, err := client.Activity.ListRepositoryEvents(ctx, args.org, repo, opt)
@@ -290,7 +295,7 @@ func processArgs() githubInfo {
 
 func mainLoop(args githubInfo) {
 	ticker := time.NewTicker(1 * time.Hour)
-	client := getGithubApiClient(args)
+	client := getGitHubApiClient(args)
 
 	for {
 		totalWakeups.Add(1)
