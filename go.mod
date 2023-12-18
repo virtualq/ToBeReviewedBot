@@ -12,6 +12,6 @@ require (
 require (
 	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
-	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
-	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 )
